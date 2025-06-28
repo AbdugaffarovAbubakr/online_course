@@ -1,0 +1,1325 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Online Course Management API",
+		"description": "Complete API collection for the Online Course Management System built with NestJS. Includes authentication, course management, enrollment, modules, lessons, assignments, and results.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register Admin (Public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Teacher (Public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Teacher User\",\n  \"email\": \"teacher@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new teacher user"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Student (Public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Student User\",\n  \"email\": \"student@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"student\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new student user"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin (Public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login as admin and get access token"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Teacher (Public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"teacher@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login as teacher and get access token"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Student (Public)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"student@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login as student and get access token"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token (Authenticated)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						},
+						"description": "Refresh access token using refresh token from cookies"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for user registration, login, and token refresh"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Get all users (Admin role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Get user by ID (Admin role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"role\": \"teacher\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Update user by ID (Admin role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Delete user by ID (Admin role required)"
+					},
+					"response": []
+				}
+			],
+			"description": "User management endpoints (Admin role required for all operations)"
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "Get All Courses (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/courses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"courses"
+							]
+						},
+						"description": "Get all available courses"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course by ID (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/courses/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"courses",
+								"1"
+							]
+						},
+						"description": "Get course details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Course (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"JavaScript Fundamentals\",\n  \"description\": \"Learn the basics of JavaScript programming\",\n  \"teacherId\": 2,\n  \"imageUrl\": \"https://example.com/js-image.jpg\",\n  \"duration\": 30,\n  \"level\": \"beginner\",\n  \"category\": \"programming\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/courses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"courses"
+							]
+						},
+						"description": "Create a new course and assign to teacher (Admin role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assigned Courses (Teacher)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/courses/assigned",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"courses",
+								"assigned"
+							]
+						},
+						"description": "Get courses assigned to the authenticated teacher"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Course (Admin/Teacher)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated JavaScript Fundamentals\",\n  \"description\": \"Updated course description\",\n  \"imageUrl\": \"https://example.com/updated-js-image.jpg\",\n  \"duration\": 35,\n  \"level\": \"intermediate\",\n  \"category\": \"programming\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/courses/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"courses",
+								"1"
+							]
+						},
+						"description": "Update course (Admin can update any course, Teacher can only update assigned courses)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Course (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/courses/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"courses",
+								"1"
+							]
+						},
+						"description": "Delete course (Admin role required)"
+					},
+					"response": []
+				}
+			],
+			"description": "Course management endpoints with role-based access control"
+		},
+		{
+			"name": "Enrollment",
+			"item": [
+				{
+					"name": "Get All Enrollments (Admin/Teacher)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/enrollment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"enrollment"
+							]
+						},
+						"description": "Get all enrollments (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Courses (Student)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/enrollment/my-courses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"enrollment",
+								"my-courses"
+							]
+						},
+						"description": "Get courses enrolled by current student"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Enrollments by Course (Admin/Teacher)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/enrollment/course/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"enrollment",
+								"course",
+								"1"
+							]
+						},
+						"description": "Get all enrollments for a specific course (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Enroll in Course (Student)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"courseId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/enrollment",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"enrollment"
+							]
+						},
+						"description": "Enroll current student in a course"
+					},
+					"response": []
+				},
+				{
+					"name": "Unenroll from Course (Student)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/enrollment/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"enrollment",
+								"1"
+							]
+						},
+						"description": "Unenroll current student from a course"
+					},
+					"response": []
+				}
+			],
+			"description": "Enrollment management endpoints with role-based access control"
+		},
+		{
+			"name": "Modules",
+			"item": [
+				{
+					"name": "Get All Modules (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/modules",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modules"
+							]
+						},
+						"description": "Get all modules"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Module by ID (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/modules/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modules",
+								"1"
+							]
+						},
+						"description": "Get module by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Modules by Course (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/modules/course/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modules",
+								"course",
+								"1"
+							]
+						},
+						"description": "Get all modules for a specific course"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Module (Admin/Teacher)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Introduction to JavaScript\",\n  \"description\": \"Basic concepts of JavaScript programming\",\n  \"courseId\": 1,\n  \"order\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/modules",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modules"
+							]
+						},
+						"description": "Create a new module (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Module (Admin/Teacher)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Introduction to JavaScript\",\n  \"description\": \"Updated module description\",\n  \"order\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/modules/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modules",
+								"1"
+							]
+						},
+						"description": "Update module (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Module (Admin/Teacher)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/modules/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"modules",
+								"1"
+							]
+						},
+						"description": "Delete module (Admin or Teacher role required)"
+					},
+					"response": []
+				}
+			],
+			"description": "Module management endpoints with role-based access control"
+		},
+		{
+			"name": "Lessons",
+			"item": [
+				{
+					"name": "Get All Lessons (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/lessons",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons"
+							]
+						},
+						"description": "Get all lessons"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lesson by ID (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/lessons/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons",
+								"1"
+							]
+						},
+						"description": "Get lesson by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lessons by Module (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/lessons/module/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons",
+								"module",
+								"1"
+							]
+						},
+						"description": "Get all lessons for a specific module"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Lesson (Admin/Teacher)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Variables and Data Types\",\n  \"content\": \"Learn about variables, strings, numbers, and booleans in JavaScript\",\n  \"moduleId\": 1,\n  \"order\": 1,\n  \"duration\": 15,\n  \"videoUrl\": \"https://example.com/video1.mp4\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/lessons",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons"
+							]
+						},
+						"description": "Create a new lesson (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Lesson (Admin/Teacher)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Variables and Data Types\",\n  \"content\": \"Updated lesson content\",\n  \"order\": 2,\n  \"duration\": 20,\n  \"videoUrl\": \"https://example.com/updated-video1.mp4\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/lessons/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons",
+								"1"
+							]
+						},
+						"description": "Update lesson (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Lesson (Admin/Teacher)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/lessons/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"lessons",
+								"1"
+							]
+						},
+						"description": "Delete lesson (Admin or Teacher role required)"
+					},
+					"response": []
+				}
+			],
+			"description": "Lesson management endpoints with role-based access control"
+		},
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "Get All Assignments (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/assignments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments"
+							]
+						},
+						"description": "Get all assignments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assignment by ID (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/assignments/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"1"
+							]
+						},
+						"description": "Get assignment by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assignments by Course (All Roles)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/assignments/course/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"course",
+								"1"
+							]
+						},
+						"description": "Get all assignments for a specific course"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Assignment (Admin/Teacher)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"JavaScript Basics Quiz\",\n  \"description\": \"Test your knowledge of JavaScript fundamentals\",\n  \"courseId\": 1,\n  \"dueDate\": \"2024-12-31T23:59:59Z\",\n  \"maxScore\": 100\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assignments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments"
+							]
+						},
+						"description": "Create a new assignment (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Assignment (Admin/Teacher)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated JavaScript Basics Quiz\",\n  \"description\": \"Updated assignment description\",\n  \"dueDate\": \"2024-12-31T23:59:59Z\",\n  \"maxScore\": 150\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assignments/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"1"
+							]
+						},
+						"description": "Update assignment (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Assignment (Admin/Teacher)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/assignments/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"1"
+							]
+						},
+						"description": "Delete assignment (Admin or Teacher role required)"
+					},
+					"response": []
+				}
+			],
+			"description": "Assignment management endpoints with role-based access control"
+		},
+		{
+			"name": "Results",
+			"item": [
+				{
+					"name": "Get All Results (Admin/Teacher)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/results",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results"
+							]
+						},
+						"description": "Get all results (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Result by ID (Admin/Teacher/Student)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/results/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"1"
+							]
+						},
+						"description": "Get result by ID (Admin/Teacher can see all, Student can see own results)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Results (Student)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/results/my-results",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"my-results"
+							]
+						},
+						"description": "Get results for current student"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Results by Assignment (Admin/Teacher)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/results/assignment/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"assignment",
+								"1"
+							]
+						},
+						"description": "Get all results for a specific assignment (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Assignment (Student)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assignmentId\": 1,\n  \"score\": 85,\n  \"submission\": \"My assignment submission text\",\n  \"submittedAt\": \"2024-12-15T10:30:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/results",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results"
+							]
+						},
+						"description": "Submit assignment result (Student role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Result (Admin/Teacher)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"score\": 90,\n  \"feedback\": \"Great work! Minor improvements needed.\",\n  \"gradedAt\": \"2024-12-16T14:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/results/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"1"
+							]
+						},
+						"description": "Update result (Admin or Teacher role required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Result (Admin/Teacher)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/results/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"results",
+								"1"
+							]
+						},
+						"description": "Delete result (Admin or Teacher role required)"
+					},
+					"response": []
+				}
+			],
+			"description": "Result management endpoints with role-based access control"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "your_access_token_here",
+			"type": "string"
+		}
+	]
+} 
