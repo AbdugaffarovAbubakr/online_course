@@ -10,6 +10,11 @@ export class CreateCourseDto {
   @IsNotEmpty()
   description: string;
 
+  @IsNumber()
+  @IsNotEmpty()
+  @Transform(({ value }) => parseInt(value))
+  teacherId: number;
+
   @IsOptional()
   @IsString()
   imageUrl?: string;

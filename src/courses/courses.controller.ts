@@ -50,13 +50,25 @@ export class CoursesController {
   }
 
   @Post()
-  @Roles(UserRole.ADMIN, UserRole.TEACHER)
+  @Roles(UserRole.ADMIN)
   async create(@Body() createCourseDto: CreateCourseDto, @CurrentUser() user: any) {
     try {
-      this.logger.log(`Creating course by user: ${user.email}`);
+      this.logger.log(`Creating course by admin: ${user.email}`);
       return await this.coursesService.create(createCourseDto, user);
     } catch (error) {
-      this.logger.error(`Failed to create course by user: ${user.email}`, error.stack);
+      this.logger.error(`Failed to create course by admin: ${user.email}`, error.stack);
+      throw error;
+    }
+  }
+
+  @Get('teacher/assigned')
+  @Roles(UserRole.TEACHER)
+  async findAssignedCourses(@CurrentUser() user: any) {
+    try {
+      this.logger.log(`Fetching assigned courses for teacher: ${user.email}`);
+      return await this.coursesService.findAssignedCourses(user.id);
+    } catch (error) {
+      this.logger.error(`Failed to fetch assigned courses for teacher: ${user.email}`, error.stack);
       throw error;
     }
   }
@@ -82,10 +94,10 @@ export class CoursesController {
   @Roles(UserRole.ADMIN)
   async remove(@Param('id', ParseIntPipe) id: number, @CurrentUser() user: any) {
     try {
-      this.logger.log(`Deleting course ${id} by user: ${user.email}`);
+      this.logger.log(`Deleting course ${id} by admin: ${user.email}`);
       await this.coursesService.remove(id);
     } catch (error) {
-      this.logger.error(`Failed to delete course ${id} by user: ${user.email}`, error.stack);
+      this.logger.error(`Failed to delete course ${id} by admin: ${user.email}`, error.stack);
       throw error;
     }
   }

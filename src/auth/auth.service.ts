@@ -16,7 +16,6 @@ export class AuthService {
 
   async register(name: string, email: string, password: string, role: string = 'student'): Promise<User> {
     try {
-      // Validate role
       if (!Object.values(UserRole).includes(role as UserRole)) {
         throw new InvalidOperationException('register', 'Invalid role specified');
       }
@@ -100,7 +99,6 @@ export class AuthService {
 
   async logout(userId: number): Promise<void> {
     try {
-      // In a real application, you might want to blacklist the token
       this.logger.log(`User logged out: ${userId}`);
     } catch (error) {
       this.logger.error(`Logout failed for user: ${userId}`, error.stack);

@@ -15,7 +15,6 @@ export class UsersService {
 
   async createUser(name: string, email: string, password: string, role: UserRole = UserRole.STUDENT): Promise<User> {
     try {
-      // Check if user already exists
       const existingUser = await this.findByEmail(email);
       if (existingUser) {
         throw new DuplicateEntityException('User', 'email', email);

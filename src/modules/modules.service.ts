@@ -59,7 +59,6 @@ export class ModulesService {
     try {
       const { courseId, ...moduleData } = createModuleDto;
       
-      // Check if course exists
       const course = await this.coursesRepository.findOne({ 
         where: { id: courseId },
         relations: ['teacher']
@@ -68,7 +67,6 @@ export class ModulesService {
         throw new EntityNotFoundException('Course', courseId);
       }
 
-      // Check if user has permission to create module for this course
       if (user.role !== UserRole.ADMIN && course.teacher.id !== user.id) {
         throw new ForbiddenException('You can only create modules for your own courses');
       }
@@ -98,7 +96,6 @@ export class ModulesService {
         throw new EntityNotFoundException('Module', id);
       }
       
-      // Check if user has permission to update this module
       if (user.role !== UserRole.ADMIN && module.course.teacher.id !== user.id) {
         throw new ForbiddenException('You can only update modules for your own courses');
       }

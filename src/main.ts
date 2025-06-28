@@ -9,10 +9,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
 
-  // Global middleware
   app.use(cookieParser());
 
-  // Global pipes
   app.useGlobalPipes(
     new ValidationPipe({ 
       whitelist: true, 
@@ -24,13 +22,10 @@ async function bootstrap() {
     })
   );
 
-  // Global filters
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  // Global interceptors
   app.useGlobalInterceptors(new LoggingInterceptor());
 
-  // CORS
   app.enableCors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,

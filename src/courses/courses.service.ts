@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './course.entity';
-import { User } from '../users/user.entity';
+import { User, UserRole } from '../users/user.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { EntityNotFoundException, InsufficientPermissionsException } from '../common/exceptions/custom.exceptions';
@@ -14,22 +14,36 @@ export class CoursesService {
   constructor(
     @InjectRepository(Course)
     private coursesRepository: Repository<Course>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
-  async create(courseData: CreateCourseDto, teacher: User): Promise<Course> {
+  async create(courseData: CreateCourseDto, admin: User): Promise<Course> {
     try {
-      // Check if user has permission to create courses
-      if (teacher.role !== 'admin' && teacher.role !== 'teacher') {
-        throw new InsufficientPermissionsException('create courses', 'admin or teacher');
+      if (admin.role !== UserRole.ADMIN) {
+        throw new InsufficientPermissionsException('create courses', 'admin only');
       }
 
-      const course = this.coursesRepository.create({ ...courseData, teacher });
+      const teacher = await this.usersRepository.findOne({ 
+        where: { id: courseData.teacherId, role: UserRole.TEACHER } 
+      });
+      
+      if (!teacher) {
+        throw new EntityNotFoundException('Teacher', courseData.teacherId);
+      }
+
+      const { teacherId, ...courseDataWithoutTeacherId } = courseData;
+      const course = this.coursesRepository.create({ 
+        ...courseDataWithoutTeacherId, 
+        teacher 
+      });
+      
       const savedCourse = await this.coursesRepository.save(course);
       
-      this.logger.log(`Course created: ${savedCourse.title} by ${teacher.email}`);
+      this.logger.log(`Course created: ${savedCourse.title} by admin ${admin.email}, assigned to teacher ${teacher.email}`);
       return savedCourse;
     } catch (error) {
-      this.logger.error(`Failed to create course by ${teacher.email}`, error.stack);
+      this.logger.error(`Failed to create course by admin ${admin.email}`, error.stack);
       throw error;
     }
   }
@@ -68,9 +82,8 @@ export class CoursesService {
     try {
       const course = await this.findOne(id);
       
-      // Check if user has permission to update this course
       if (user.role !== 'admin' && course.teacher.id !== user.id) {
-        throw new InsufficientPermissionsException('update this course', 'admin or course owner');
+        throw new InsufficientPermissionsException('update this course', 'admin or assigned teacher');
       }
 
       Object.assign(course, data);
@@ -105,6 +118,19 @@ export class CoursesService {
       });
     } catch (error) {
       this.logger.error(`Failed to find courses by teacher: ${teacherId}`, error.stack);
+      throw error;
+    }
+  }
+
+  async findAssignedCourses(teacherId: number): Promise<Course[]> {
+    try {
+      return await this.coursesRepository.find({ 
+        where: { teacher: { id: teacherId } },
+        relations: ['teacher', 'modules'],
+        order: { createdAt: 'DESC' }
+      });
+    } catch (error) {
+      this.logger.error(`Failed to find assigned courses for teacher: ${teacherId}`, error.stack);
       throw error;
     }
   }

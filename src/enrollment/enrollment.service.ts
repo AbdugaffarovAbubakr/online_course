@@ -32,7 +32,6 @@ export class EnrollmentService {
 
   async findByCourse(courseId: number, user: User): Promise<Enrollment[]> {
     try {
-      // Check if user has permission to view enrollments for this course
       const course = await this.coursesRepository.findOne({
         where: { id: courseId },
         relations: ['teacher']
@@ -58,19 +57,16 @@ export class EnrollmentService {
 
   async enroll(studentId: number, courseId: number): Promise<Enrollment> {
     try {
-      // Check if student exists
       const student = await this.usersRepository.findOne({ where: { id: studentId } });
       if (!student) {
         throw new EntityNotFoundException('User', studentId);
       }
 
-      // Check if course exists
       const course = await this.coursesRepository.findOne({ where: { id: courseId } });
       if (!course) {
         throw new EntityNotFoundException('Course', courseId);
       }
 
-      // Check if already enrolled
       const existingEnrollment = await this.enrollmentRepository.findOne({ 
         where: { student: { id: studentId }, course: { id: courseId } } 
       });
@@ -101,7 +97,6 @@ export class EnrollmentService {
         throw new EntityNotFoundException('Enrollment', enrollmentId);
       }
 
-      // Check if the student owns this enrollment
       if (enrollment.student.id !== studentId) {
         throw new ForbiddenException('You can only unenroll from your own enrollments');
       }

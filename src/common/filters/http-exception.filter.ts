@@ -37,7 +37,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
       error = exception.name;
     }
 
-    // Log the error
     this.logger.error(
       `${request.method} ${request.url} - ${status} - ${message}`,
       exception instanceof Error ? exception.stack : undefined,

@@ -72,25 +72,21 @@ export class AssignmentsService {
 
   async submitAssignment(moduleId: number, studentId: number, fileUrl: string): Promise<Assignment> {
     try {
-      // Check if module exists
       const module = await this.modulesRepository.findOne({ where: { id: moduleId } });
       if (!module) {
         throw new EntityNotFoundException('Module', moduleId);
       }
 
-      // Check if student exists
       const student = await this.usersRepository.findOne({ where: { id: studentId } });
       if (!student) {
         throw new EntityNotFoundException('User', studentId);
       }
 
-      // Check if assignment already exists for this student and module
       const existingAssignment = await this.assignmentsRepository.findOne({
         where: { module: { id: moduleId }, student: { id: studentId } }
       });
 
       if (existingAssignment) {
-        // Update existing assignment
         existingAssignment.fileUrl = fileUrl;
         existingAssignment.submittedAt = new Date();
         const updatedAssignment = await this.assignmentsRepository.save(existingAssignment);
@@ -98,7 +94,6 @@ export class AssignmentsService {
         return updatedAssignment;
       }
 
-      // Create new assignment
       const assignment = this.assignmentsRepository.create({ 
         module, 
         student, 
@@ -126,9 +121,8 @@ export class AssignmentsService {
         throw new EntityNotFoundException('Assignment', id);
       }
 
-      // Check if user has permission to grade this assignment
-      if (user.role !== UserRole.ADMIN && assignment.module.course.teacher.id !== user.id) {
-        throw new ForbiddenException('You can only grade assignments for your own courses');
+      if (user.role !== UserRole.ADMIN && user.role !== UserRole.TEACHER) {
+        throw new ForbiddenException('Only admin or teacher can grade assignments');
       }
 
       assignment.grade = grade;
